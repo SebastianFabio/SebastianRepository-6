@@ -31,9 +31,17 @@
 			</div>
 		</nav>
 		<div class="row">
-		
 			<div class="col-lg-6">
 				<h3>Daily Cigarettes per Country</h3>
+				<form action="/showDaily">
+					<select name="state"> <!-- A select element creates a drop-down box with options to select from. Note: add onchange="this.form.submit()" to submit/update the form when an option is selected.  Usefull for then displaying county options. -->
+						{% for s in states %} <!-- Loop through the list of states and add an option element for each state -->
+							<option value="{{ s }}">{{ s }}</option>
+						{% endfor %}
+					</select>
+					<br><br>
+					<input type="submit" value="Get a smoking fun fact!">
+				</form>
 			</div>
 		</div>
 	</body>
