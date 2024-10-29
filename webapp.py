@@ -8,44 +8,51 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
+     return render_template('home.html')
 
     
-@app.route('/page2')
-def home():
-
-def render_fact():
-    country = get_country_options()
+@app.route('/p1')
+def page1():
+    countrys = get_country_options()
     country = request.args.get('country')
-    year = year_most_dailycigarettes(country)
-    fact = "In " + country + ", the year with the highest percentage of daily cigarettes consumed is " + year + "."
-    return render_template('home.html', country_options=countries, funFact=fact)
+    return render_template('page1.html', Country_options=countrys)
 
-def get_countries():
-    """Return a list of countries from the demographic data."""
-    with open('smoking.json') as smoking_data:
-        year = json.load(smoking_data)
-    #countries=[]
-    #for d in year:
-        #if d["Country"] not in countries:
-            #countries.append(d["Country"])
-    #a more concise but less flexible and less easy to read version is below.
-    countries=list(set([d["Country"] for d in year])) #sets do not allow duplicates and the set function is optimized for removing duplicates
-    return countries
-    
-    def year_most_dailycigarettes(country):
-    """Return the year in the given country with the highest daily cigarettes."""
-    with open('smoking.json') as smoking_data:
-        years = json.load(demographics_data)
-    highest=0
-    county = ""
-    for c in years:
-        if c["Country"] == country:
-            if c["Age"]["Percent Under 18 Years"] > highest:
-                highest = c["Age"]["Percent Under 18 Years"]
-                county = c["County"]
-    return county
-    
-@app.route('/page3')
-def home():
+@app.route('/p2')
+def page2():
+    return render_template('page2.html')
 
-app.run(debug=False) # change to False when running in production
+@app.route('/countrys')
+def render_smokers_selCountry():
+    country = request.args.get('country')
+    dailySmoker = get_Smokers(country)
+    
+    displayDailySmoker = "In " + country + ", the daily cigarettes smoked is " + str(dailySmoker) + "%"
+    
+    return render_template('page1.html', dailySmoker=displayDailySmoker)
+
+
+
+
+def get_country_options():
+    with open('smoking.json') as smoking_data:
+        data = json.load(smoking_data)
+    countries=[]
+    for c in data:
+        if c["Country"] not in countries:
+            countries.append(c["Country"])
+    options=""
+    for c in countries:
+        options += Markup("<option value=\"" + c + "\">" + c + "</option>")
+    return options
+    
+def get_Smokers(country):
+     with open('smoking.json') as smoking_data:
+            data = json.load(smoking_data)
+     countrySel = country
+     dailySmoker = 0
+     for d in data:
+        if d["Country"] == countrySel:
+            dailySmoker = d["Data"] ["Daily cigarettes"]
+     return dailySmoker
+if __name__=="__main__":
+    app.run(debug=True)
