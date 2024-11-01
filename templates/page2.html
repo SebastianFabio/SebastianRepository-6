@@ -1,13 +1,30 @@
 {% extends "layout.html" %}
 
-{% set active_page = "home" %}
+{% set active_page = "page2" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}page2{% endblock %}
 
 {% block content %}
 <div class="row">
 	<div class="col-lg-6">
-		<h3>Amount of Smokers in the United States</h3>
+		<h3>Amount of Smokers in the World per Year</h3>
+	<form action="/izzie">
+            <select name="fabio">
+                <!-- add onchange="this.form.submit()" to submit/update the form when an option is selected.  Usefull for then displaying county options. -->
+                {{ Country_options }}
+            </select>
+			<select name="julianna">
+                <!-- add onchange="this.form.submit()" to submit/update the form when an option is selected.  Usefull for then displaying county options. -->
+                {{ year_options }}
+            </select>
+            <br><br>
+            <input type="submit" value="Select Country.">
+        </form>
 	</div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+         <h3>{{izziefab}}</h3>
+    </div>
 </div>
 {% endblock %}
