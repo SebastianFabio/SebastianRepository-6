@@ -19,19 +19,39 @@ def page1():
 
 @app.route('/p2')
 def page2():
-    return render_template('page2.html')
-
+    countrys = get_country_options()
+    years=get_year_options()
+    country = request.args.get('country')
+    return render_template('page2.html', Country_options=countrys, year_options=years)    
+    
+@app.route('/izzie')
+def render_sebashasasinglesister():
+   
+    countrys = get_country_options()
+    years=get_year_options()
+    country = request.args.get('fabio')
+    year1=request.args.get('julianna')
+    juliannaizzie=get_smokers(country, year1)
+    hotider="The Total Amount Of Smokers In " + country + " In " + str(year1) + " was "+ str(juliannaizzie)
+    return render_template('page2.html', Country_options=countrys, year_options=years, izziefab=hotider)    
 @app.route('/countrys')
 def render_smokers_selCountry():
     country = request.args.get('country')
     dailySmoker = get_Smokers(country)
+    countrys = get_country_options()
+
+    displayDailySmoker = "In " + country + ", the daily cigarettes smoked is " + str(dailySmoker)
     
-    displayDailySmoker = "In " + country + ", the daily cigarettes smoked is " + str(dailySmoker) + "%"
-    
-    return render_template('page1.html', dailySmoker=displayDailySmoker)
-
-
-
+    return render_template('page1.html', dailySmoker=displayDailySmoker, Country_options=countrys)
+def get_smokers(country, year):
+    with open('smoking.json') as smoking_data:
+        data = json.load(smoking_data)
+    smokersinc=0
+    for c in data:
+        if c["Country"] == country and str(c["Year"]) == year:
+            smokersinc=c["Data"]["Smokers"]["Total"]
+    return smokersinc
+            
 
 def get_country_options():
     with open('smoking.json') as smoking_data:
@@ -44,7 +64,17 @@ def get_country_options():
     for c in countries:
         options += Markup("<option value=\"" + c + "\">" + c + "</option>")
     return options
-    
+def get_year_options():
+    with open('smoking.json') as smoking_data:
+        data = json.load(smoking_data)
+    countries=[]
+    for c in data:
+        if str(c["Year"]) not in countries:
+            countries.append (str(c["Year"]))
+    options=""
+    for c in countries:
+        options += Markup("<option value=\"" + c + "\">" + c + "</option>")
+    return options    
 def get_Smokers(country):
      with open('smoking.json') as smoking_data:
             data = json.load(smoking_data)
