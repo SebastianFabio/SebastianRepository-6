@@ -25,7 +25,7 @@ def page2():
     return render_template('page2.html', Country_options=countrys, year_options=years)    
     
 @app.route('/izzie')
-def render_sebashasasinglesister():
+def render_IderereK():
    
     countrys = get_country_options()
     years=get_year_options()
