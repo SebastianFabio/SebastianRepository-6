@@ -40,7 +40,7 @@ def render_smokers_selCountry():
     dailySmoker = get_Smokers(country)
     countrys = get_country_options()
 
-    displayDailySmoker = "In " + country + ", the daily cigarettes smoked is " + str(dailySmoker)
+    displayDailySmoker = "In " + country + ", in 2012 the daily cigarettes smoked is " + str(dailySmoker)
     
     return render_template('page1.html', dailySmoker=displayDailySmoker, Country_options=countrys)
 def get_smokers(country, year):
